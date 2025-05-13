@@ -1,5 +1,12 @@
 import TagButton from "@/components/ui/TagButton";
-import { View, Text, Pressable, ScrollView, StatusBar } from "react-native";
+import {
+  View,
+  Text,
+  Pressable,
+  ScrollView,
+  StatusBar,
+  Platform,
+} from "react-native";
 import { useState } from "react";
 import Section from "@/components/ui/Section";
 import { FontAwesome } from "@expo/vector-icons";
@@ -11,6 +18,7 @@ import {
   RadarChart,
 } from "react-native-gifted-charts";
 import { Picker } from "@react-native-picker/picker";
+import { Image } from "expo-image";
 
 export default function StatisticsPage() {
   const [activeBtn, setActiveBtn] = useState("Day");
@@ -34,7 +42,10 @@ export default function StatisticsPage() {
     setActiveBtn(title);
   };
   return (
-    <ScrollView contentContainerClassName="bg-white flex-1 px-6 pb-10 gap-2">
+    <ScrollView
+      className="flex-1 bg-white"
+      contentContainerClassName="px-6 pb-10 gap-2"
+    >
       <StatusBar barStyle="dark-content" />
       <View className="my-2 flex-row justify-center gap-2">
         <TagButton
@@ -67,21 +78,25 @@ export default function StatisticsPage() {
         />
       </View>
 
-      <View className="border">
-        <Picker
-          className="border border-amber-400"
-          mode="dropdown"
-          dropdownIconColor={"#438883"}
-          prompt="test"
-          selectedValue={selectedLanguage}
-          onValueChange={(itemValue, itemIndex) =>
-            setSelectedLanguage(itemValue)
-          }
-        >
-          <Picker.Item color="#438883" label="Java" value="java" />
-          <Picker.Item label="JavaScript" value="js" />
-        </Picker>
-      </View>
+      {Platform.OS !== "ios" && (
+        <View className="border">
+          <Picker
+            className="border border-amber-400"
+            mode="dropdown"
+            dropdownIconColor={"#438883"}
+            prompt="test"
+            selectedValue={selectedLanguage}
+            onValueChange={(itemValue, itemIndex) =>
+              setSelectedLanguage(itemValue)
+            }
+          >
+            <Picker.Item color="#438883" label="Java" value="java" />
+            <Picker.Item label="JavaScript" value="js" />
+          </Picker>
+        </View>
+      )}
+
+      <View className="w-32 h-12 self-end rounded-md border border-gray-300"></View>
 
       <View className="flex-row">
         <LineChart
@@ -159,10 +174,57 @@ export default function StatisticsPage() {
         <RadarChart data={[50, 80, 90, 70]} />
       </View> */}
 
-      <Section title="Statistics" headerRight={SortButton}>
-        <View>
-          <Text>Total</Text>
-          <Text>100</Text>
+      <Section title="Top Spending" className="mt-3" headerRight={SortButton}>
+        <View className="mt-2 flex-row items-center justify-between bg-gray-50 p-3 rounded-lg">
+          <View className="flex-row items-center gap-3">
+            {/* source={{ uri: require("../../../assets/images/man.png")}} */}
+            <View className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
+              <Image
+                source={require("../../../assets/images/man.png")}
+                className="w-10 h-10 rounded-full"
+              />
+            </View>
+            <View className="gap-2">
+              <Text className="font-inter-bold">Starbucks</Text>
+              <Text className="font-inter">Jan 12, 2002</Text>
+            </View>
+          </View>
+          <Text className="font-inter-bold text-xl text-[#29756f]">+ $100</Text>
+        </View>
+
+        <View className="bg-[#29756f] shadow-lg shadow-[#29756f]/30 mt-2 flex-row items-center justify-between p-3 rounded-lg">
+          <View className="flex-row items-center gap-3">
+            {/* source={{ uri: require("../../../assets/images/man.png")}} */}
+            <View className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
+              <Image
+                source={require("../../../assets/images/man.png")}
+                className="w-10 h-10 rounded-full"
+              />
+            </View>
+            <View className="gap-2">
+              <Text className="font-inter-bold text-white">Youtube</Text>
+              <Text className="font-inter text-white">yesterday</Text>
+            </View>
+          </View>
+          <Text className="font-inter-bold text-xl text-white">+ $99</Text>
+        </View>
+
+        <View className="mt-2 flex-row items-center justify-between bg-gray-50 p-3 rounded-lg">
+          <View className="flex-row items-center gap-3">
+            <View className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
+              <Image
+                source={require("../../../assets/images/man.png")}
+                className="w-10 h-10 rounded-full"
+              />
+            </View>
+            <View className="gap-2">
+              <Text className="font-inter-bold">Facebook</Text>
+              <Text className="font-inter">Jan 14, 2002</Text>
+            </View>
+          </View>
+          <Text className="font-inter-bold text-xl text-red-500">
+            - $32,000
+          </Text>
         </View>
       </Section>
     </ScrollView>
