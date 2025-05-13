@@ -1,5 +1,5 @@
 import TagButton from "@/components/ui/TagButton";
-import { View, Text, Pressable, ScrollView } from "react-native";
+import { View, Text, Pressable, ScrollView, StatusBar } from "react-native";
 import { useState } from "react";
 import Section from "@/components/ui/Section";
 import { FontAwesome } from "@expo/vector-icons";
@@ -35,6 +35,7 @@ export default function StatisticsPage() {
   };
   return (
     <ScrollView contentContainerClassName="bg-white flex-1 px-6 pb-10 gap-2">
+      <StatusBar barStyle="dark-content" />
       <View className="my-2 flex-row justify-center gap-2">
         <TagButton
           title="Day"
@@ -65,9 +66,10 @@ export default function StatisticsPage() {
           }}
         />
       </View>
-      
+
       <View className="border">
         <Picker
+          className="border border-amber-400"
           mode="dropdown"
           dropdownIconColor={"#438883"}
           prompt="test"

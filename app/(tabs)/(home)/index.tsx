@@ -31,12 +31,12 @@ export default function Index() {
 
   return (
     <View className="flex-1">
+      <StatusBar barStyle={thinScreen ? "dark-content" : "light-content"} />
       <ImageBackground
         source={require("../../../assets/images/rect-bg.png")}
         className={`h-80 p-6 ${thinScreen ? "h-[20rem]" : ""}`}
         resizeMode="cover"
       >
-        <StatusBar barStyle={thinScreen ? "dark-content" : "light-content"} />
         <SafeAreaView className={thinScreen ? "mt-6" : ""}>
           <View className="flex-row justify-between">
             <View className="gap-2">
