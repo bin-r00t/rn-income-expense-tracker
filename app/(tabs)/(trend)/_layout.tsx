@@ -15,10 +15,8 @@ export default function TrendLayout() {
         options={{
           title: "Statistics",
           headerRight: () => (
-            <Pressable>
-              <Text>
-                <FontAwesome name="download" size={20} color="black" />
-              </Text>
+            <Pressable className="flex-row items-center justify-center w-10 h-10 rounded focus-within:bg-gray-100 focus:bg-gray-100 active:bg-gray-100">
+              <FontAwesome name="download" size={20} color="black" />
             </Pressable>
           ),
         }}
