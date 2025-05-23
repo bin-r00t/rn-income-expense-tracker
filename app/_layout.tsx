@@ -38,8 +38,13 @@ export default function RootLayout() {
       }}
     >
       <Stack.Screen name="(tabs)" />
-      <Stack.Screen name="login" options={{ presentation: "modal" }} />
       <Stack.Screen
+        name="qq"
+        options={{
+          presentation: "modal",
+        }}
+      />
+      {/* <Stack.Screen
         name="notification"
         options={{
           headerShown: true,
@@ -52,7 +57,7 @@ export default function RootLayout() {
           headerBackTitle: "返回",
           headerBackButtonMenuEnabled: false,
         }}
-      />
+      /> */}
     </Stack>
   );
 }
