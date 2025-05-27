@@ -38,21 +38,6 @@ export default function RootLayout() {
       }}
     >
       <Stack.Screen name="(tabs)" />
-      <Stack.Screen name="login" options={{ presentation: "modal" }} />
-      <Stack.Screen
-        name="notification"
-        options={{
-          headerShown: true,
-          title: "通知",
-          headerBackground: () => {
-            return <View className="h-full w-full bg-[#429690]" />;
-          },
-          headerTintColor: "white",
-          headerBackVisible: false,
-          headerBackTitle: "返回",
-          headerBackButtonMenuEnabled: false,
-        }}
-      />
     </Stack>
   );
 }
