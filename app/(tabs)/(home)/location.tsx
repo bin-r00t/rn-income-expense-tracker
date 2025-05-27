@@ -7,8 +7,9 @@ import {
 } from "react-native-responsive-screen";
 import { useEffect, useReducer, useState } from "react";
 import * as Location from "expo-location";
-import React from 'react';
-import { Platform } from 'react-native';
+import React from "react";
+import { Platform } from "react-native";
+import { showLocation } from "react-native-map-link";
 
 const initialState = {
   location: {
@@ -52,20 +53,20 @@ export default function LocationView() {
     const enabled = await Location.hasServicesEnabledAsync();
     if (!enabled) {
       Alert.alert(
-        '位置服务未启用',
-        '请在系统设置中启用位置服务以使用此功能。',
+        "位置服务未启用",
+        "请在系统设置中启用位置服务以使用此功能。",
         [
-          { text: '取消', style: 'cancel' },
-          { 
-            text: '打开设置', 
+          { text: "取消", style: "cancel" },
+          {
+            text: "打开设置",
             onPress: () => {
-              if (Platform.OS === 'ios') {
-                Linking.openURL('app-settings:');
+              if (Platform.OS === "ios") {
+                Linking.openURL("app-settings:");
               } else {
                 Linking.openSettings();
               }
-            }
-          }
+            },
+          },
         ]
       );
       return false;
@@ -78,27 +79,29 @@ export default function LocationView() {
       const servicesEnabled = await checkLocationServices();
       if (!servicesEnabled) return;
 
-      const { status: foregroundStatus } = await Location.requestForegroundPermissionsAsync();
-      if (foregroundStatus !== 'granted') {
+      const { status: foregroundStatus } =
+        await Location.requestForegroundPermissionsAsync();
+      if (foregroundStatus !== "granted") {
         Alert.alert(
-          '需要位置权限',
-          '请允许应用访问您的位置信息以继续使用此功能。',
-          [{ text: '确定' }]
+          "需要位置权限",
+          "请允许应用访问您的位置信息以继续使用此功能。",
+          [{ text: "确定" }]
         );
         return;
       }
 
-      const { status: backgroundStatus } = await Location.requestBackgroundPermissionsAsync();
-      if (backgroundStatus !== 'granted') {
+      const { status: backgroundStatus } =
+        await Location.requestBackgroundPermissionsAsync();
+      if (backgroundStatus !== "granted") {
         Alert.alert(
-          '需要后台位置权限',
-          '为了提供更好的服务，请允许应用在后台访问位置信息。',
-          [{ text: '确定' }]
+          "需要后台位置权限",
+          "为了提供更好的服务，请允许应用在后台访问位置信息。",
+          [{ text: "确定" }]
         );
       }
     } catch (error) {
-      console.error('请求位置权限时出错:', error);
-      Alert.alert('错误', '请求位置权限时发生错误，请稍后重试。');
+      console.error("请求位置权限时出错:", error);
+      Alert.alert("错误", "请求位置权限时发生错误，请稍后重试。");
     }
   };
 
@@ -110,14 +113,20 @@ export default function LocationView() {
       const location = await Location.getCurrentPositionAsync({
         accuracy: Location.Accuracy.Balanced,
       });
-      console.log('location', location);
-      dispatch({ type: "SET_LOCATION", payload: {
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-      } });
+      console.log("location", location);
+      dispatch({
+        type: "SET_LOCATION",
+        payload: {
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
+        },
+      });
     } catch (error) {
-      console.log('获取位置错误:', error);
-      dispatch({ type: "SET_ERROR", payload: error instanceof Error ? error.message : '未知错误' });
+      console.log("获取位置错误:", error);
+      dispatch({
+        type: "SET_ERROR",
+        payload: error instanceof Error ? error.message : "未知错误",
+      });
     }
   };
 
@@ -138,6 +147,19 @@ export default function LocationView() {
         <View className="mt-4">
           <Button title="刷新位置" onPress={getCurrentLocation} />
         </View>
+        <View className="mt-4">
+          <Button
+            title="打开地图"
+            onPress={() => {
+              showLocation({
+                latitude: 40.0583,
+                longitude: 116.3046,
+                dialogTitle: "打开地图",
+                dialogMessage: "请选择地图应用",
+              });
+            }}
+          />
+        </View>
       </View>
       <View className="gap-3 bg-gray-200 p-4">
         <Text className="font-bold text-lg">当前位置:</Text>
@@ -145,8 +167,12 @@ export default function LocationView() {
           <Text className="text-lg text-red-400">错误: {state.error}</Text>
         ) : (
           <>
-            <Text className="text-lg text-red-400">纬度: {state.location.latitude}</Text>
-            <Text className="text-lg text-red-400">经度: {state.location.longitude}</Text>
+            <Text className="text-lg text-red-400">
+              纬度: {state.location.latitude}
+            </Text>
+            <Text className="text-lg text-red-400">
+              经度: {state.location.longitude}
+            </Text>
           </>
         )}
       </View>
