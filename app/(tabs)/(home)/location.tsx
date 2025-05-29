@@ -1,6 +1,7 @@
 import { router } from "expo-router";
 import { View, Text, Button, Alert, Linking } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { WebView } from "react-native-webview";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -9,7 +10,9 @@ import { useEffect, useReducer, useState } from "react";
 import * as Location from "expo-location";
 import React from "react";
 import { Platform } from "react-native";
-import { showLocation } from "react-native-map-link";
+// import { showLocation } from "react-native-map-link";
+
+const gaodeMapKey = "8b4139c0c935348ff3eed01efb8c18a8";
 
 const initialState = {
   location: {
@@ -74,6 +77,14 @@ export default function LocationView() {
     return true;
   };
 
+  const [showLocation, setShowLocation] = useState(false);
+  // showLocation({
+  //   latitude: 40.0583,
+  //   longitude: 116.3046,
+  //   dialogTitle: "打开地图",
+  //   dialogMessage: "请选择地图应用",
+  // });
+
   const requestLocationPermission = async () => {
     try {
       const servicesEnabled = await checkLocationServices();
@@ -130,6 +141,15 @@ export default function LocationView() {
     }
   };
 
+  const onOpenMap = async () => {
+    setShowLocation(true);
+    // router.push("/maps?latitude=40.0583&longitude=116.3046");
+    // const result = await showLocation({
+    //   latitude: 40.0583,
+    //   longitude: 116.3046,
+    // });
+  };
+
   useEffect(() => {
     requestLocationPermission();
   }, []);
@@ -148,17 +168,7 @@ export default function LocationView() {
           <Button title="刷新位置" onPress={getCurrentLocation} />
         </View>
         <View className="mt-4">
-          <Button
-            title="打开地图"
-            onPress={() => {
-              showLocation({
-                latitude: 40.0583,
-                longitude: 116.3046,
-                dialogTitle: "打开地图",
-                dialogMessage: "请选择地图应用",
-              });
-            }}
-          />
+          <Button title="打开地图" onPress={onOpenMap} />
         </View>
       </View>
       <View className="gap-3 bg-gray-200 p-4">
@@ -176,6 +186,18 @@ export default function LocationView() {
           </>
         )}
       </View>
+
+      {showLocation && (
+        <View className="bg-gray-800 flex-1">
+          <Text className="text-white">MapView</Text>
+          <WebView
+            style={{ flex: 1 }}
+            source={{
+              uri: `https://m.amap.com/navi/?dest=${state.location.longitude},${state.location.latitude}&key=${gaodeMapKey}`,
+            }}
+          />
+        </View>
+      )}
     </SafeAreaView>
   );
 }

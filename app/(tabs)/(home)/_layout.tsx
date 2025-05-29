@@ -9,6 +9,7 @@ export default function HomeLayout() {
     >
       <Stack.Screen name="index" options={{}} />
       <Stack.Screen name="location" options={{}} />
+      <Stack.Screen name="maps" options={{}} />
     </Stack>
   );
 }

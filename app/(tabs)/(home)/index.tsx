@@ -28,7 +28,6 @@ export default function Index() {
   return (
     <SafeAreaView className="flex-1 bg-neutral-100 justify-center items-center">
       <Button title="Location" onPress={() => router.push("/location")} />
-      <Button title="Baidu" onPress={() => router.push("/baidu")} />
     </SafeAreaView>
   );
 }
